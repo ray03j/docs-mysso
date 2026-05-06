@@ -53,7 +53,7 @@ feature/database-schema
 
 ```
 my-sso/
-├── docker-compose.yml              # PostgreSQL + 3 Rails + Vue + RP 一括起動
+├── compose.yml                     # PostgreSQL + 3 Rails + Vue + RP 一括起動
 ├── .env.example                    # 環境変数テンプレート
 ├── .gitignore
 │
@@ -528,7 +528,7 @@ my-sso/
 │       └── composables/
 │
 ├── demo-rp/                        # デモRP（ポート5174）
-├── docker-compose.yml
+├── compose.yml
 ├── .env.example
 └── infrastructure/
     ├── postgresql/

@@ -37,7 +37,7 @@
 
 | 観点 | 現プロジェクトへの影響 |
 |---|---|
-| **ローカル開発の複雑化** | 現状は `docker compose up` 1発。分割後は `git clone` × 複数 + `docker-compose.yml` の共有方法を考える必要あり |
+| **ローカル開発の複雑化** | 現状は `docker compose up` 1発。分割後は `git clone` × 複数 + `compose.yml` の共有方法を考える必要あり |
 | **共通設定の重複・同期コスト** | RuboCop、ESLint、`.env.example`、PostgreSQL init スクリプトなどを複数リポにまたがって管理する必要が出る |
 | **内部API連携のテストが困難** | `idp-auth` → `idp-user` の呼び出し統合テストを、マルチレポで実行するには Git サブモジュール or 外部スクリプトが必要 |
 | **ブランチ間の整合性** | `feature/idp-auth-service` が `idp-user` の新APIに依存する場合、両リポのブランチを同期してマージしないと壊れる |
@@ -53,7 +53,7 @@
 2. **外部公開・委託**: `demo-rp` を外部開発者に公開するが、コアサービスは隠したい
 3. **CI 実行時間のボトルネック**: モノレポで `bundle install` × 3 + `npm install` × 2 が並列化しても CI が5分を超える
 
-現状（Phase 1、小規模チーム、docker-compose 一括起動）ではこれらに該当しません。
+現状（Phase 1、小規模チーム、docker compose 一括起動）ではこれらに該当しません。
 
 ---
 

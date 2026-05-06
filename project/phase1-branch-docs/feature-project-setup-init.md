@@ -18,7 +18,7 @@
 my-sso/
 ├── .gitignore
 ├── .env.example
-├── docker-compose.yml          # ← 空ファイル or 後続ブランチで上書き
+├── compose.yml                 # ← 空ファイル or 後続ブランチで上書き
 │
 ├── idp-auth/
 │   ├── app/
@@ -104,7 +104,7 @@ SECRET_KEY_BASE=replace_in_production
 VITE_API_BASE_URL=http://localhost:3000
 ```
 
-### `docker-compose.yml`
+### `compose.yml`
 
 空ファイル（`feature/project-setup/docker` で上書き）
 
@@ -113,7 +113,7 @@ VITE_API_BASE_URL=http://localhost:3000
 - [ ] `my-sso/` 以下に全サービス用ディレクトリが作成されている
 - [ ] `.gitignore` が適切に設定されている
 - [ ] `.env.example` に必要な環境変数が定義されている
-- [ ] `docker-compose.yml` が存在する（空でも可）
+- [ ] `compose.yml` が存在する（空でも可）
 
 ## 備考
 

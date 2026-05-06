@@ -2,7 +2,7 @@
 
 ## 目的
 
-PostgreSQL + 3 Rails + Vue + RP を一括起動できる `docker-compose.yml` と各サービスの `Dockerfile` を作成する。
+PostgreSQL + 3 Rails + Vue + RP を一括起動できる `compose.yml` と各サービスの `Dockerfile` を作成する。
 
 ## ブランチ名
 
@@ -14,11 +14,9 @@ PostgreSQL + 3 Rails + Vue + RP を一括起動できる `docker-compose.yml` �
 
 ## 作成・変更するファイル
 
-### `docker-compose.yml`
+### `compose.yml`
 
 ```yaml
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16
