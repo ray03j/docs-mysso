@@ -60,26 +60,29 @@
 
 ### 3.3 サービス連携パターン
 
-```
-┌─────────────┐      ┌──────────────────────────────────────────────────────────┐
-│   RP        │      │  モノレポ（Phase 1） / マイクロサービス群（Phase 2〜）    │
-│ (クライアント) │─────▶│                                                          │
-└─────────────┘      │  ┌──────────┐    ┌──────────┐    ┌──────────┐            │
-                     │  │ idp-auth │◄───│ idp-user │    │idp-client│            │
-                     │  │ (認可)   │HTTP│ (認証)   │    │(RP管理)  │            │
-                     │  └────┬─────┘    └──────────┘    └──────────┘            │
-                     │       │                                                   │
-                     │  ┌────┴─────┐    ┌──────────┐                            │
-                     │  │ PostgreSQL│    │  Redis   │（Phase 5で監査連携）      │
-                     │  │(認可コード,│    │(Pub/Sub) │                            │
-                     │  │ トークン) │    └──────────┘                            │
-                     │  └──────────┘                                              │
-                     │                                                            │
-                     │  ┌──────────────┐    ┌──────────────┐                     │
-                     │  │ idp-portal   │    │ idp-admin-ui │                     │
-                     │  │(Vue SPA)     │    │(Vue SPA)     │                     │
-                     │  └──────────────┘    └──────────────┘                     │
-                     └──────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph External ["外部"]
+        RP["RP<br/>(クライアント)"]
+    end
+
+    subgraph IdP ["IdP システム"]
+        direction TB
+        Auth["idp-auth<br/>(認可)"]
+        User["idp-user<br/>(認証)"]
+        Client["idp-client<br/>(RP管理)"]
+        PG["PostgreSQL<br/>(認可コード, トークン)"]
+        Redis[(Redis<br/>Pub/Sub)]
+        Portal["idp-portal<br/>(Vue SPA)"]
+        AdminUI["idp-admin-ui<br/>(Vue SPA)"]
+    end
+
+    RP -->|OAuth/OIDC| Auth
+    Auth <-->|内部HTTP API| User
+    Auth -->|データ永続化| PG
+    Auth -.->|Phase 5で監査連携| Redis
+    Portal -->|認可エンドポイント| Auth
+    AdminUI -->|管理API| Auth
 ```
 
 #### 同期通信（REST API）
