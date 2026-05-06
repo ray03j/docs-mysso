@@ -22,6 +22,11 @@ CREATE DATABASE user_db;
 CREATE DATABASE client_db;
 ```
 
+#### なぜこの設定か
+
+- **命名 `01_init.sql`**：PostgreSQL の Docker イメージは `/docker-entrypoint-initdb.d` に配置されたファイルを辞書順に実行するため、先頭に `01_` を付けて「最初に実行される」ことを保証。後から `02_seed.sql` などを追加しやすい命名規則。
+- **1 ファイルで 3 DB を作成**：`compose.yml` の `postgres` サービスは単一コンテナで動作するため、Rails 各サービスが分離された DB を使えるようにする必要がある。1 ファイルにまとめることで、初期化スクリプトの散在を防ぐ。
+
 ### `infrastructure/nginx/nginx.conf`
 
 ```nginx
@@ -52,6 +57,11 @@ server {
 }
 ```
 
+#### なぜこの設定か
+
+- **雛形としての配置**：現時点では `compose.yml` に含めないが、Phase 4 で API Gateway として導入する際に設定の起点となる。 upstream を事前に定義しておくことで、後続ブランチで `location /api/auth` などに振り分ける際の変更差分が最小化される。
+- **`proxy_set_header`**：Rails がリモート IP やホスト名を正しく認識できるようにするための必須ヘッダ。特に OIDC の `redirect_uri` 検証時に `Host` ヘッダが正しくないとエラーになるため、初期段階から含めている。
+
 ## マージ基準（チェックリスト）
 
 - [ ] `docker compose up postgres` で3つのDB（`auth_db`, `user_db`, `client_db`）が作成される
@@ -59,4 +69,4 @@ server {
 
 ## 備考
 
-nginx は現時点では `docker-compose.yml` に含めない。Phase 4 で正式に導入する。
+nginx は現時点では `compose.yml` に含めない。Phase 4 で正式に導入する。

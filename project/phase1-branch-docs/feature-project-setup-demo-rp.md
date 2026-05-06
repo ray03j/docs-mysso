@@ -46,6 +46,12 @@
 }
 ```
 
+#### なぜこの設定か
+
+- **`vite --host --port 5174`**：`frontend`（5173）とポートが被らないように 5174 を明示。同時起動が必須なため、デフォルトポートのままでは Docker Compose 起動時に競合する。
+- **`dependencies` に `vue` のみ**：デモ RP は OIDC 認可フローの動作確認用の最小アプリであり、複雑な状態管理や画面遷移は不要。`pinia`・`vue-router` は Phase 3 で必要になった時点で追加する。
+- **その他は `frontend` と同一**：ESM・Vite・TypeScript・品質ツールの構成を統一し、開発者が `frontend` と `demo-rp` を行き来しても文脈切り替えコストを下げる。
+
 ### `demo-rp/vite.config.ts`
 
 ```typescript
@@ -60,6 +66,12 @@ export default defineConfig({
   },
 })
 ```
+
+#### なぜこの設定か
+
+- **`port: 5174`**：`frontend`（5173）との競合回避。`package.json` の `--port` と合わせて二重指定することで、CLI 引数と設定ファイルのどちらが優先されても確実に 5174 になる。
+- **`host: true`**：Docker 内での `0.0.0.0` バインド。`frontend` と同様。
+- **proxy なし**：デモ RP は自前で `window.location` リダイレクト（OIDC 認可エンドポイントへ）を行うため、API プロキシが不要。認可コードフローではブラウザが直接認可サーバーにアクセスする。
 
 ### `demo-rp/index.html`
 
@@ -84,6 +96,11 @@ export default defineConfig({
 VITE_IDP_BASE_URL=http://localhost:3000
 VITE_CLIENT_ID=demo_client
 ```
+
+#### なぜこの設定か
+
+- **`VITE_IDP_BASE_URL`**：デモ RP が OIDC Discovery や認可エンドポイントの URL を構築する際の基点。`frontend` の `VITE_API_BASE_URL` と異なり、こちらはブラウザから直接アクセスする URL（`localhost:3000`）を指定。コンテナ間通信ではなく、エンドユーザーのブラウザが使うため `localhost` を採用。
+- **`VITE_CLIENT_ID=demo_client`**：OIDC では各 RP は事前に認可サーバーへ client_id を登録する必要がある。デモ用に固定値 `demo_client` を設定し、Phase 3 での認可フロー実装時に `idp-auth` の DB に同じ client_id をシード投入することで、すぐに動作確認できるようにする。
 
 ### `demo-rp/src/main.ts`
 

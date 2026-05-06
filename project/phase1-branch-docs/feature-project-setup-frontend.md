@@ -48,6 +48,14 @@
 }
 ```
 
+#### なぜこの設定か
+
+- **`"type": "module"`**：ES Modules（`import`/`export`）をネイティブに使用し、Vite の高速 HMR（Hot Module Replacement）を最大限活かす。CommonJS では Tree Shaking が不完全になり、バンドルサイズが肥大化する。
+- **`vite --host`**：Docker コンテナ内で開発サーバを起動する際、デフォルトでは localhost のみにバインドされてホスト側ブラウザからアクセスできない。`--host`（`0.0.0.0` バインド）を付けることで、ポートフォワーディングされたホスト側から `http://localhost:5173` で到達できる。
+- **`vue`/`pinia`/`vue-router`**：Vue 3 エコシステムの標準的な組み合わせ。Pinia は Vuex 後継で型推論が強く、`vue-router` は SPA 内の画面遷移に必須。雛形段階で入れておくことで、`feature/frontend-login` で即座にルーティング・状態管理を実装できる。
+- **`vue-tsc && vite build`**：ビルド前に TypeScript コンパイルチェックを実行し、型エラーを実行時ではなくビルド時に検出。型安全なデプロイを担保する。
+- **`eslint`/`prettier` を devDependencies に入れる**：フロントエンドの品質担保をそのプロジェクト内で完結させ、グローバルインストールを強制しない。CI でも `npm ci` で同じバージョンが入る。
+
 ### `frontend/vite.config.ts`
 
 ```typescript
@@ -68,6 +76,12 @@ export default defineConfig({
   },
 })
 ```
+
+#### なぜこの設定か
+
+- **`port: 5173`**：Vite 開発サーバのデフォルトポート。特別な理由がない限りデフォルトを維持することで、開発者がドキュメントを見ずにアクセスできる。
+- **`host: true`**：`package.json` の `--host` と同様、Docker 内で `0.0.0.0` にバインドし、ホスト側ブラウザからのアクセスを許可。
+- **`proxy: '/api'`**：CORS 問題を回避するため、開発時はフロントエンドの `/api/*` リクエストを `idp-auth`（ポート3000）に転送。フロントエンドコード内では相対パス `/api/...` を使えるため、本番 URL と開発 URL の切り替えが不要になる。`changeOrigin: true` は、仮想ホストやオリジンヘッダの改変が必要な場合に備えて有効化している（現時点では必須ではないが、将来的な拡張に備える）。
 
 ### `frontend/index.html`
 
