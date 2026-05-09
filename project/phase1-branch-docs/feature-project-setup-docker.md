@@ -78,7 +78,7 @@ services:
 
   frontend:
     build: ./frontend
-    command: npm run dev
+    command: pnpm dev
     volumes:
       - ./frontend:/app
     ports:
@@ -88,7 +88,7 @@ services:
 
   demo-rp:
     build: ./demo-rp
-    command: npm run dev
+    command: pnpm dev
     volumes:
       - ./demo-rp:/app
     ports:
@@ -129,9 +129,9 @@ CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 FROM node:20
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN corepack enable && pnpm install
 COPY . .
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "dev"]
 ```
 
 ### `demo-rp/Dockerfile`
