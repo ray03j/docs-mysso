@@ -2,7 +2,7 @@
 
 ## 目的
 
-プロジェクト全体の品質担保ツール（Lefthook, RuboCop, ESLint, Prettier）を設定する。
+プロジェクト全体の品質担保ツール（Lefthook, RuboCop, ESLint, oxfmt）を設定する。
 
 ## ブランチ名
 
@@ -25,11 +25,11 @@ pre-commit:
     eslint-frontend:
       root: frontend/
       glob: "*.{ts,vue}"
-      run: npx eslint --fix {staged_files}
+      run: pnpm eslint --fix {staged_files}
     eslint-demo-rp:
       root: demo-rp/
       glob: "*.{ts,vue}"
-      run: npx eslint --fix {staged_files}
+      run: pnpm eslint --fix {staged_files}
 
 pre-push:
   commands:
@@ -107,7 +107,7 @@ module.exports = {
 - **`plugin:vue/vue3-recommended`**：Vue 3 の Composition API と `<script setup>` を正しく解析するための推奨ルールセット。`vue3-essential` では不十分で、`vue3-strongly-recommended` まで入れると初期段階で厳しすぎるため、推奨（recommended）を採用。
 - **`vue/multi-word-component-names: off`**：トップレベルの `App.vue` やデモ用の短いコンポーネントで「複数単語必須」の警告が出るのを防ぐ。本格的な UI 構築時には個別に有効化してもよいが、雛形段階では無効にしておく。
 
-### `frontend/.prettierrc`
+### `frontend/.oxfmt.json`
 
 ```json
 {
@@ -127,15 +127,15 @@ module.exports = {
 
 （`frontend/.eslintrc.cjs` と同様）
 
-### `demo-rp/.prettierrc`
+### `demo-rp/.oxfmt.json`
 
-（`frontend/.prettierrc` と同様）
+（`frontend/.oxfmt.json` と同様）
 
 ## マージ基準（チェックリスト）
 
 - [ ] RuboCop が各 Rails サービスで実行できる
-- [ ] ESLint / Prettier が `frontend/` で実行できる
-- [ ] ESLint / Prettier が `demo-rp/` で実行できる
+- [ ] ESLint / oxfmt が `frontend/` で実行できる
+- [ ] ESLint / oxfmt が `demo-rp/` で実行できる
 - [ ] `lefthook install` 後、pre-commit フックが動作する
 
 ## 備考
