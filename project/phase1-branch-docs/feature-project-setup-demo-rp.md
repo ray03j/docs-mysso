@@ -29,6 +29,7 @@
     "lint": "eslint . --ext .vue,.ts,.tsx --fix",
     "format": "oxfmt ."
   },
+  "packageManager": "pnpm@9.0.0",
   "dependencies": {
     "vue": "^3.4"
   },
@@ -128,8 +129,8 @@ app.mount('#app')
 ## マージ基準（チェックリスト）
 
 - [ ] `docker compose up demo-rp` で デモRP（ポート5174）が起動する
-- [ ] `npm run lint` が実行できる
-- [ ] `npm run format` が実行できる
+- [ ] `pnpm lint` が実行できる
+- [ ] `pnpm format` が実行できる
 
 ## 備考
 
