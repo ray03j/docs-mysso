@@ -27,7 +27,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.ts,.tsx --fix",
-    "format": "prettier --write ."
+    "format": "oxfmt ."
   },
   "dependencies": {
     "vue": "^3.4",
@@ -43,7 +43,7 @@
     "eslint-plugin-vue": "^9.24",
     "@typescript-eslint/eslint-plugin": "^7.5",
     "@typescript-eslint/parser": "^7.5",
-    "prettier": "^3.2"
+    "oxfmt": "^0.24"
   }
 }
 ```
@@ -54,7 +54,7 @@
 - **`vite --host`**：Docker コンテナ内で開発サーバを起動する際、デフォルトでは localhost のみにバインドされてホスト側ブラウザからアクセスできない。`--host`（`0.0.0.0` バインド）を付けることで、ポートフォワーディングされたホスト側から `http://localhost:5173` で到達できる。
 - **`vue`/`pinia`/`vue-router`**：Vue 3 エコシステムの標準的な組み合わせ。Pinia は Vuex 後継で型推論が強く、`vue-router` は SPA 内の画面遷移に必須。雛形段階で入れておくことで、`feature/frontend-login` で即座にルーティング・状態管理を実装できる。
 - **`vue-tsc && vite build`**：ビルド前に TypeScript コンパイルチェックを実行し、型エラーを実行時ではなくビルド時に検出。型安全なデプロイを担保する。
-- **`eslint`/`prettier` を devDependencies に入れる**：フロントエンドの品質担保をそのプロジェクト内で完結させ、グローバルインストールを強制しない。CI でも `npm ci` で同じバージョンが入る。
+- **`eslint`/`oxfmt` を devDependencies に入れる**：フロントエンドの品質担保をそのプロジェクト内で完結させ、グローバルインストールを強制しない。CI でも `npm ci` で同じバージョンが入る。Oxfmt は Prettier 互換で実行速度が圧倒的に速く、Vue ファイルの JS/TS ブロックもフォーマット可能。
 
 ### `frontend/vite.config.ts`
 
