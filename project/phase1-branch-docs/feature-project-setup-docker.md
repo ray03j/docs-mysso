@@ -107,7 +107,7 @@ networks:
 ### `idp-auth/Dockerfile`
 
 ```dockerfile
-FROM ruby:3.3
+FROM ruby:3.3.0
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
@@ -159,7 +159,7 @@ CMD ["pnpm", "dev"]
 
 #### なぜこの設定か
 
-- **`ruby:3.3`**：Gemfile で指定した Ruby バージョンと一致させ、ビルド時の互換性を保つ。`3.3` タグは最新のパッチバージョンを自動追従するため、セキュリティアップデートを容易にする（本番では固定パッチ版に変更）。
+- **`ruby:3.3.0`**：Gemfile で `ruby '3.3.0'` を固定しているため、ビルド時の Ruby バージョンを厳密に一致させる。パッチバージョンまで固定することで、開発者間・CI 間の Ruby バージョン不一致を防ぎ、`bundle install` 時の「Your Ruby version is ... but your Gemfile specified ...」エラーを回避する。
 - **`bundle install` を `COPY . .` より先に実行**：`Gemfile`/`Gemfile.lock` が変更されない限り、Docker レイヤキャッシュが効き、ビルド時間を短縮できる。ソースコードの細かい変更のたびに `bundle install` が走ると開発効率が著しく低下する。
 - **`node:20`**：package.json のエコシステム（Vite, ESLint など）が Node 20 LTS で検証されているため。LTS 版を使うことで、開発中に Node の破壊的変更によるトラブルを回避する。
 
