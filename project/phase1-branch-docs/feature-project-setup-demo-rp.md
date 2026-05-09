@@ -27,7 +27,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.ts,.tsx --fix",
-    "format": "prettier --write ."
+    "format": "oxfmt ."
   },
   "dependencies": {
     "vue": "^3.4"
@@ -41,7 +41,7 @@
     "eslint-plugin-vue": "^9.24",
     "@typescript-eslint/eslint-plugin": "^7.5",
     "@typescript-eslint/parser": "^7.5",
-    "prettier": "^3.2"
+    "oxfmt": "^0.24"
   }
 }
 ```
