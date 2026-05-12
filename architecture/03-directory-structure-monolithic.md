@@ -32,7 +32,7 @@ my-sso/
 ├── README.md
 ├── requirements.md
 ├── .env.example
-├── docker-compose.yml              # PostgreSQL + Rails + Vue 一括起動
+├── compose.yml                     # PostgreSQL + Rails + Vue 一括起動
 │
 ├── backend/                        # Ruby on Rails（IdP本体）
 │   ├── Gemfile
@@ -123,7 +123,7 @@ Railsを純粋なAPIモードに特化し、フロントエンドは完全に分
 
 ```
 my-sso/
-├── docker-compose.yml
+├── compose.yml
 │
 ├── idp-api/                        # Rails APIモードのみ
 │   ├── app/

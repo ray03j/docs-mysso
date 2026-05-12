@@ -36,6 +36,10 @@ group :development, :test do
 end
 ```
 
+#### なぜこの設定か
+
+`idp-auth` と同一の理由。マイクロサービス間で Ruby/Rails のバージョンと gem セットを統一することで、開発環境構築手順・Dockerfile・CI 設定を共通化できる。サービスごとに gem を変えると、メンテナンスコストが指数的に増えるため、本プロジェクトでは原則同一構成とする。
+
 ### `idp-user/config/application.rb`
 
 ```ruby
@@ -50,6 +54,10 @@ module IdpUser
   end
 end
 ```
+
+#### なぜこの設定か
+
+`idp-auth` と同一。マイクロサービス間で Rails の動作モードを統一し、API 応答・タイムゾーン・デフォルト設定に差異が出ないようにする。モジュール名のみサービス固有に変更。
 
 ### `idp-user/config/routes.rb`
 
@@ -83,6 +91,10 @@ production:
   database: user_db
 ```
 
+#### なぜこの設定か
+
+`idp-auth` と同一の構成理由。DB 名のみ `user_db` に変更し、サービス間での DB 分離を明確にする。同じ PostgreSQL インスタンス上でもスキーマ分離ではなく DB 分離を採用する理由は、バックアップ・リストア・権限管理をサービス単位で行いやすくするため。
+
 ### その他必須ファイル
 
 - `idp-user/Gemfile.lock`
@@ -98,6 +110,10 @@ production:
 - `idp-user/app/models/application_record.rb`
 - `idp-user/db/seeds.rb`
 - `idp-user/spec/spec_helper.rb`
+
+#### なぜこのファイル群か
+
+`idp-auth` と同一の理由。Rails 雛形の標準ファイル群であり、雛形生成時に揃えることで、後続ブランチで機能追加に集中できる。
 
 ## マージ基準（チェックリスト）
 

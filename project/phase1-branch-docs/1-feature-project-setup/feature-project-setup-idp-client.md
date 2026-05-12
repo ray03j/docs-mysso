@@ -36,6 +36,10 @@ group :development, :test do
 end
 ```
 
+#### なぜこの設定か
+
+`idp-auth`・`idp-user` と同一。マイクロサービス間で gem セットを統一し、メンテナンスコストを最小化する。
+
 ### `idp-client/config/application.rb`
 
 ```ruby
@@ -50,6 +54,10 @@ module IdpClient
   end
 end
 ```
+
+#### なぜこの設定か
+
+`idp-auth`・`idp-user` と同一。マイクロサービス間で Rails の動作モードを統一。モジュール名のみサービス固有に変更。
 
 ### `idp-client/config/routes.rb`
 
@@ -83,6 +91,10 @@ production:
   database: client_db
 ```
 
+#### なぜこの設定か
+
+`idp-auth`・`idp-user` と同一の構成理由。DB 名のみ `client_db` に変更。クライアント情報（OIDC Client）を管理するための分離 DB。
+
 ### その他必須ファイル
 
 - `idp-client/Gemfile.lock`
@@ -98,6 +110,10 @@ production:
 - `idp-client/app/models/application_record.rb`
 - `idp-client/db/seeds.rb`
 - `idp-client/spec/spec_helper.rb`
+
+#### なぜこのファイル群か
+
+`idp-auth`・`idp-user` と同一の理由。Rails 雛形の標準ファイル群。
 
 ## マージ基準（チェックリスト）
 

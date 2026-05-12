@@ -123,7 +123,7 @@ my-sso/
 │   ├── tools.md               # 開発ツール選定
 │   └── ai-agent-tools.md      # AIエージェント支援定義
 │
-├── docker-compose.yml         # PostgreSQL + Rails + Vue 一括起動
+├── compose.yml                # PostgreSQL + Rails + Vue 一括起動
 ├── .env.example
 │
 ├── backend/                   # Ruby on Rails（IdP 本体）
