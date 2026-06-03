@@ -35,7 +35,7 @@
 
 ## 2.5 各サービスの責務とデータ（具体例）
 
-各サービスの詳細な責務、持つデータ、API仕様、HTTP通信例については [01-prerequisites-idp-auth-and-user.md](./01-prerequisites-idp-auth-and-user.md) を参照。
+各サービスの詳細な責務、持つデータ、API仕様、HTTP通信例については [02-prerequisites-idp-auth-and-user.md](../guides/02-prerequisites-idp-auth-and-user.md) を参照。
 
 ### 簡単な比較
 
@@ -162,7 +162,7 @@ sequenceDiagram
 | アクセストークン発行 | `idp-auth` | トークン lifecycle の責任範囲 |
 | セッションCookie発行 | `idp-auth` | ブラウザとのやり取りを担当 |
 
-詳細な HTTP リクエスト/レスポンス例は [01-prerequisites-idp-auth-and-user.md](./01-prerequisites-idp-auth-and-user.md) を参照。
+詳細な HTTP リクエスト/レスポンス例は [01-prerequisites-idp-auth-and-user.md](../guides/02-prerequisites-idp-auth-and-user.md) を参照。
 
 ---
 

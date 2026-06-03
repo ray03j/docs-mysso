@@ -139,4 +139,4 @@ Phase 3: Outboxパターン + メッセージブローカー導入
 
 - [02-domain-boundary-design.md](./02-domain-boundary-design.md) — 本プロジェクトのドメイン境界設計
 - [05-microservices-tradeoffs.md](./05-microservices-tradeoffs.md) — マイクロサービス化のトレードオフ
-- [01-prerequisites-idp-auth-and-user.md](./01-prerequisites-idp-auth-and-user.md) — 認証・認可連携の詳細設計
+- [01-prerequisites-idp-auth-and-user.md](../guides/02-prerequisites-idp-auth-and-user.md) — 認証・認可連携の詳細設計
