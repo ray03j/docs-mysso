@@ -40,6 +40,18 @@ end
 - **`redirect_uris` / `allowed_scopes` の `text` 型**：配列や JSON 形式で複数の URI・スコープを保存するため、可変長の `text` を採用。PostgreSQL では `jsonb` への移行も可能だが、現時点ではシンプルな改行区切り or CSV 形式を想定し `text` で開始。Phase 2 で正規化を検討。
 - **`name` の `null: false`**：管理画面での表示名として必須。
 
+### `idp-client/app/models/client.rb`
+
+```ruby
+class Client < ApplicationRecord
+end
+```
+
+#### なぜこの設定か
+
+- **モデル雛形**：`db:seed` で `Client.create!` を実行するために最低限のモデルクラスが必要。本ブランチではテーブル定義のみを行うため、バリデーションや検証ロジックは空クラスとする。
+- **`ApplicationRecord` を継承**：Rails 7.1 の標準的なモデル定義。後続ブランチで `client_secret` 検証メソッドなどを追加する。
+
 ### `idp-client/db/seeds.rb`
 
 ```ruby

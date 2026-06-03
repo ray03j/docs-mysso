@@ -19,8 +19,8 @@
 | ブランチ名 | 内容 | 依存 |
 |---|---|---|
 | `feature/database-schema/init` | PostgreSQL 初期化スクリプト・Gemfile 更新 | `feature/project-setup` |
-| `feature/database-schema/idp-user` | `users` テーブルマイグレーション・seeds | `init` |
-| `feature/database-schema/idp-client` | `clients` テーブルマイグレーション・seeds | `init` |
+| `feature/database-schema/idp-user` | `users` テーブルマイグレーション・モデル雛形・seeds | `init` |
+| `feature/database-schema/idp-client` | `clients` テーブルマイグレーション・モデル雛形・seeds | `init` |
 | `feature/database-schema/idp-auth` | `authorization_codes` / `access_tokens` / `refresh_tokens` / `consents` マイグレーション・seeds | `init` |
 
 ## マージ順序
