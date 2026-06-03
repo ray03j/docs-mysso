@@ -54,6 +54,8 @@ end
 ### `idp-user/db/seeds.rb`
 
 ```ruby
+require 'bcrypt'
+
 # テスト用ユーザー
 User.create!(
   email: 'test@example.com',

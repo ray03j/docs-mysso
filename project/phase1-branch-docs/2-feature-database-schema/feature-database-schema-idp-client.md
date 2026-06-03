@@ -55,6 +55,8 @@ end
 ### `idp-client/db/seeds.rb`
 
 ```ruby
+require 'bcrypt'
+
 # テスト用クライアント（デモ RP 用）
 Client.create!(
   client_id: 'demo_client',
