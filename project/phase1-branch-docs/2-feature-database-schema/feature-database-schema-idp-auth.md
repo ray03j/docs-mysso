@@ -155,3 +155,11 @@ end
 ## 備考
 
 本ブランチではテーブル定義のみ。認可コード発行・検証、JWT 発行などのロジックは `feature/idp-auth-service` で実装する。
+
+---
+
+## インデックス詳細解説
+
+インデックスの内部構造については別ファイルに分離しています。
+
+→ [feature-database-schema-idp-auth-index-details.md](../../../guides/index/04-インデックス詳細解説-feature-database-schema-idp-auth.md)
