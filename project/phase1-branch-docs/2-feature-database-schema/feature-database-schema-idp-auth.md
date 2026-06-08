@@ -21,8 +21,8 @@ class CreateAuthorizationCodes < ActiveRecord::Migration[7.1]
   def change
     create_table :authorization_codes do |t|
       t.string :code, null: false
-      t.string :user_id, null: false
-      t.string :client_id, null: false
+      t.uuid :user_id, null: false
+      t.uuid :client_id, null: false
       t.string :redirect_uri
       t.string :scope
       t.datetime :expires_at, null: false
@@ -39,7 +39,7 @@ end
 #### なぜこの設定か
 
 - **`code` の `null: false` + UNIQUE**：認可コードは 1 回限りのランダム文字列であり、重複は許容できない。
-- **`user_id` / `client_id` の `string`**：他サービスのテーブルと外部キー制約を持たない（マイクロサービス間で DB を分離しているため）。サービス間通信で整合性を担保する。
+- **`user_id` / `client_id` の `uuid`**：他サービスのテーブルと外部キー制約を持たない（マイクロサービス間で DB を分離しているため）。サービス間通信で整合性を担保する。`users.id` / `clients.client_id` も UUID のため型を揃えている。
 - **`expires_at` の `null: false`**：認可コードは短期間（例: 10 分）で失効する必要があるため、有効期限は必須。
 - **`used` の `default: false`**：コード使用済みフラグ。OIDC では認可コードは 1 度しか使用できない（コード再利用攻撃の防止）。
 - **複合インデックス `[client_id, used]`**：未使用コードの検索を高速化するため。なお、`:client_id` と `:used` は上記 `create_table` ブロック内で定義されたカラムです。
@@ -51,8 +51,8 @@ class CreateAccessTokens < ActiveRecord::Migration[7.1]
   def change
     create_table :access_tokens do |t|
       t.string :token, null: false
-      t.string :user_id, null: false
-      t.string :client_id, null: false
+      t.uuid :user_id, null: false
+      t.uuid :client_id, null: false
       t.string :scope
       t.datetime :expires_at, null: false
       t.timestamps
@@ -77,8 +77,8 @@ class CreateRefreshTokens < ActiveRecord::Migration[7.1]
   def change
     create_table :refresh_tokens do |t|
       t.string :token, null: false
-      t.string :user_id, null: false
-      t.string :client_id, null: false
+      t.uuid :user_id, null: false
+      t.uuid :client_id, null: false
       t.string :scope
       t.datetime :expires_at
       t.timestamps
@@ -93,7 +93,7 @@ end
 #### なぜこの設定か
 
 - **`expires_at` の `null: true`**：リフレッシュトークンは「回転（rotation）」戦略を採用する場合、失効期限を設けずに「使用済みフラグ」で管理する方式もある。現時点では柔軟性を持たせて NULL 許容とする。Phase 2 で方針を確定する。
-- **それ以外は `access_tokens` と同様の理由**。リフレッシュトークンも同じくサービス間で DB が分離されているため `user_id` / `client_id` は string 型。
+- **それ以外は `access_tokens` と同様の理由**。リフレッシュトークンも同じくサービス間で DB が分離されているため `user_id` / `client_id` は uuid 型。
 - **インデックス**：`access_tokens` と同様に、`:token` には単一 UNIQUE インデックス、`:user_id` / `:client_id` には複合インデックスを設定。これらは上記 `create_table` ブロック内で定義されたカラムです。
 
 ### `idp-auth/db/migrate/004_create_consents.rb`
@@ -102,8 +102,8 @@ end
 class CreateConsents < ActiveRecord::Migration[7.1]
   def change
     create_table :consents do |t|
-      t.string :user_id, null: false
-      t.string :client_id, null: false
+      t.uuid :user_id, null: false
+      t.uuid :client_id, null: false
       t.string :scope, null: false
       t.timestamps
     end
@@ -128,8 +128,8 @@ end
 #
 # AuthorizationCode.create!(
 #   code: 'test_code_12345',
-#   user_id: '1',
-#   client_id: 'demo_client',
+#   user_id: '550e8400-e29b-41d4-a716-446655440000',
+#   client_id: '550e8400-e29b-41d4-a716-446655440000',
 #   redirect_uri: 'http://localhost:5174/callback',
 #   scope: 'openid profile',
 #   expires_at: 10.minutes.from_now
