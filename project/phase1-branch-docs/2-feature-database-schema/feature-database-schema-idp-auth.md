@@ -119,6 +119,59 @@ end
 - **`scope` の `null: false`**：同意の対象となるスコープは必須。OIDC の同意画面では「どの情報を提供するか」をスコープ単位でユーザーに提示する。
 - **同意履歴の簡易管理**：現時点では「最新の同意のみ」を保持するシンプルな設計。Phase 4 以降で監査ログ（`idp-audit`）を新設し、履歴を完全に追跡する予定。
 
+### モデルファイル
+
+`idp-auth` サービスでは、認可関連テーブルに対応するモデルファイルを作成します。各モデルには DB 制約に対応する最小限のバリデーションを設定します。
+
+#### `idp-auth/app/models/authorization_code.rb`
+
+```ruby
+class AuthorizationCode < ApplicationRecord
+  validates :code, presence: true, uniqueness: true
+  validates :user_id, presence: true
+  validates :client_id, presence: true
+  validates :expires_at, presence: true
+end
+```
+
+#### `idp-auth/app/models/access_token.rb`
+
+```ruby
+class AccessToken < ApplicationRecord
+  validates :token, presence: true, uniqueness: true
+  validates :user_id, presence: true
+  validates :client_id, presence: true
+  validates :expires_at, presence: true
+end
+```
+
+#### `idp-auth/app/models/refresh_token.rb`
+
+```ruby
+class RefreshToken < ApplicationRecord
+  validates :token, presence: true, uniqueness: true
+  validates :user_id, presence: true
+  validates :client_id, presence: true
+end
+```
+
+#### `idp-auth/app/models/consent.rb`
+
+```ruby
+class Consent < ApplicationRecord
+  validates :user_id, presence: true, uniqueness: { scope: :client_id }
+  validates :client_id, presence: true
+  validates :scope, presence: true
+end
+```
+
+#### なぜこの設定か
+
+- **DB 制約に対応する最小限のバリデーション**：各テーブルの `NOT NULL` / `UNIQUE` 制約に対応し、モデル層で事前に検証することで DB 例外（`ActiveRecord::NotNullViolation` 等）を防ぎ、API としての扱いやすさを向上する。
+- **本ブランチではテーブル定義とモデル雛形のみ**：認可コード発行・検証、JWT 発行などのビジネスロジックは `feature/idp-auth-service` で実装する。
+
+---
+
 ### `idp-auth/db/seeds.rb`
 
 ```ruby
@@ -154,7 +207,7 @@ end
 
 ## 備考
 
-本ブランチではテーブル定義のみ。認可コード発行・検証、JWT 発行などのロジックは `feature/idp-auth-service` で実装する。
+本ブランチでは**テーブル定義とモデル雛形（バリデーション）**まで。認可コード発行・検証、JWT 発行などのビジネスロジックは `feature/idp-auth-service` で実装する。
 
 ---
 
