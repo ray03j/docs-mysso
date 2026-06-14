@@ -204,6 +204,6 @@ Content-Type: application/json
 
 ## 7. 関連ドキュメント
 
-- [02-domain-boundary-design.md](./02-domain-boundary-design.md) — ドメイン境界の設計判断（なぜこの分割を選んだか）
-- [04-directory-structure-microservices.md](./04-directory-structure-microservices.md) — マイクロサービス全体構成
+- [02-domain-boundary-design.md](../architecture/02-domain-boundary-design.md) — ドメイン境界の設計判断（なぜこの分割を選んだか）
+- [04-directory-structure-microservices.md](../architecture/04-directory-structure-microservices.md) — マイクロサービス全体構成
 - [requirements.md](../project/requirements.md) — プロジェクトの機能要件・非機能要件

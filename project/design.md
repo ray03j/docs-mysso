@@ -290,7 +290,7 @@ my-sso/
 | カラム | 型 | 制約 | 説明 |
 |---|---|---|---|
 | `id` | UUID | PK | クライアントID（公開） |
-| `client_id` | string | NOT NULL, UNIQUE | RP識別子 |
+| `client_id` | UUID | NOT NULL, UNIQUE | RP識別子（UUID） |
 | `client_secret` | string | NOT NULL | クライアントシークレット（ハッシュ化推奨） |
 | `name` | string | NOT NULL | アプリ名称 |
 | `redirect_uris` | text[] | NOT NULL | 許可リダイレクトURI一覧 |
@@ -305,7 +305,7 @@ my-sso/
 | `id` | UUID | PK | |
 | `code` | string | NOT NULL, UNIQUE | 認可コード文字列（ランダム256bit, Base64URL） |
 | `user_id` | UUID | NOT NULL, FK(users) | 認証済みユーザー |
-| `client_id` | string | NOT NULL | RP識別子 |
+| `client_id` | UUID | NOT NULL | RP識別子（UUID） |
 | `redirect_uri` | string | NOT NULL | 当時指定されたリダイレクトURI |
 | `scope` | string | NOT NULL | 許可されたスコープ（スペース区切り） |
 | `code_challenge` | string | NULLABLE | PKCE code_challenge |
@@ -321,7 +321,7 @@ my-sso/
 | `id` | UUID | PK | |
 | `token` | string | NOT NULL, UNIQUE | JWT文字列（RS256署名） |
 | `user_id` | UUID | NOT NULL, FK(users) | |
-| `client_id` | string | NOT NULL | |
+| `client_id` | UUID | NOT NULL | |
 | `scope` | string | NOT NULL | |
 | `expires_at` | datetime | NOT NULL | 有効期限（15分後） |
 | `revoked_at` | datetime | NULLABLE | 失効日時 |
@@ -336,7 +336,7 @@ my-sso/
 | `id` | UUID | PK | |
 | `token` | string | NOT NULL, UNIQUE | ランダム文字列（256bit, Base64URL） |
 | `user_id` | UUID | NOT NULL, FK(users) | |
-| `client_id` | string | NOT NULL | |
+| `client_id` | UUID | NOT NULL | |
 | `scope` | string | NOT NULL | |
 | `expires_at` | datetime | NOT NULL | 有効期限（7日後） |
 | `revoked_at` | datetime | NULLABLE | 失効日時 |
@@ -348,7 +348,7 @@ my-sso/
 |---|---|---|---|
 | `id` | UUID | PK | |
 | `user_id` | UUID | NOT NULL, FK(users) | |
-| `client_id` | string | NOT NULL | |
+| `client_id` | UUID | NOT NULL | |
 | `scope` | string | NOT NULL | 同意されたスコープ |
 | `created_at` | datetime | | |
 | `updated_at` | datetime | | |

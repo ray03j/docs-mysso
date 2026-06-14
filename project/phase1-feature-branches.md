@@ -198,29 +198,44 @@ my-sso/
 idp-user/
 ├── config/
 │   └── database.yml                # user_db 専用設定
+├── app/
+│   └── models/
+│       └── user.rb                 # バリデーション（email, password_hash）
 └── db/
     ├── migrate/
     │   └── 001_create_users.rb
-    └── seeds.rb                    # 更新：テスト用ユーザー初期データ
+    ├── schema.rb                   # マイグレーション実行後に生成
+    └── seeds.rb                    # 更新：テスト用ユーザー初期データ（冪等・環境限定）
 
 idp-client/
 ├── config/
 │   └── database.yml                # client_db 専用設定
+├── app/
+│   └── models/
+│       └── client.rb               # バリデーション（client_id, client_secret_hash, name, ...）
 └── db/
     ├── migrate/
     │   └── 001_create_clients.rb
-    └── seeds.rb                    # 更新：テスト用クライアント初期データ
+    ├── schema.rb                   # マイグレーション実行後に生成
+    └── seeds.rb                    # 更新：テスト用クライアント初期データ（冪等・環境限定）
 
 idp-auth/
 ├── config/
 │   └── database.yml                # auth_db 専用設定
+├── app/
+│   └── models/
+│       ├── authorization_code.rb   # バリデーション（code, user_id, client_id, expires_at）
+│       ├── access_token.rb         # バリデーション（token, user_id, client_id, expires_at）
+│       ├── refresh_token.rb        # バリデーション（token, user_id, client_id）
+│       └── consent.rb              # バリデーション（user_id, client_id, scope）
 └── db/
     ├── migrate/
     │   ├── 001_create_authorization_codes.rb
     │   ├── 002_create_access_tokens.rb
     │   ├── 003_create_refresh_tokens.rb
     │   └── 004_create_consents.rb
-    └── seeds.rb
+    ├── schema.rb                   # マイグレーション実行後に生成
+    └── seeds.rb                    # コメントアウト済み（空実行で通る）
 ```
 
 ### 変更するファイル
@@ -237,7 +252,9 @@ idp-auth/
 - [ ] `rails db:migrate` を `idp-client/` で実行して `clients` テーブルが作成される
 - [ ] `rails db:migrate` を `idp-auth/` で実行して `authorization_codes`, `access_tokens`, `refresh_tokens`, `consents` テーブルが作成される
 - [ ] strong_migrations で警告が出ない
-- [ ] 各サービスの `db/seeds.rb` を実行して初期データが投入できる
+- [ ] `idp-auth` の `db/seeds.rb` はコメントアウト済みで、空実行（`rails db:seed`）がエラーなく通る（セキュリティリスクの有無の違いのため）
+- [ ] `idp-user` の `db/seeds.rb` を実行してテスト用ユーザーが投入できる（冪等・development/test 限定）
+- [ ] `idp-client` の `db/seeds.rb` を実行してテスト用クライアントが投入できる（冪等・development/test 限定）
 
 ---
 
